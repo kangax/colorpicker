@@ -64,6 +64,7 @@ Refresh.Web.ColorPicker.prototype = {
 		this._mapBase.style.padding = 0;
 		this._mapBase.style.margin = 0;
 		this._mapBase.style.border = 'solid 1px #000';
+		this._mapBase.style.position = 'relative';
 		
 		this._mapL1 = new Element('img',{src:this.settings.clientFilesPath + 'blank.gif', width:256, height:256} ); //'blank.gif'});
 		this._mapL1.style.margin = '0px';
@@ -72,7 +73,10 @@ Refresh.Web.ColorPicker.prototype = {
 		this._mapL2 = new Element('img',{src:this.settings.clientFilesPath + 'blank.gif', width:256, height:256} ); //'blank.gif'});
 		this._mapBase.appendChild(this._mapL2);
 		this._mapL2.style.clear = 'both';
-		this._mapL2.style.margin = '-256px 0px 0px 0px';
+		//this._mapL2.style.margin = '-256px 0px 0px 0px';
+		this._mapL2.style.position = 'absolute';
+		this._mapL2.style.top = '0';
+		this._mapL2.style.left = '0';
 		this._mapL2.setOpacity(.5);
 		
 		
@@ -80,25 +84,39 @@ Refresh.Web.ColorPicker.prototype = {
 		this._bar = $(this.id + '_ColorBar');
 		this._bar.style.width = '20px';
 		this._bar.style.height = '256px';
+		this._bar.style.position = 'relative';
 		this._bar.style.padding = 0;
 		this._bar.style.margin = '0px 10px';
 		this._bar.style.border = 'solid 1px #000';		
 		
 		this._barL1 = new Element('img',{src:this.settings.clientFilesPath + 'blank.gif', width:20, height:256});
 		this._barL1.style.margin = '0px';
+		this._barL1.style.position = 'absolute';
+		this._barL1.style.top = '0px';
+		this._barL1.style.left = '0px';
+		
 		this._bar.appendChild(this._barL1);			
 
 		this._barL2 = new Element('img',{src:this.settings.clientFilesPath + 'blank.gif', width:20, height:256} );
-		this._barL2.style.margin = '-256px 0px 0px 0px';
+		//this._barL2.style.margin = '-256px 0px 0px 0px';
+		this._barL2.style.position = 'absolute';
+		this._barL2.style.top = '0px';
+		this._barL2.style.left = '0px';
 		this._bar.appendChild(this._barL2);
 		
 		this._barL3 = new Element('img',{src:this.settings.clientFilesPath + 'blank.gif', width:20, height:256} );
-		this._barL3.style.margin = '-256px 0px 0px 0px';
+		//this._barL3.style.margin = '-256px 0px 0px 0px';
+		this._barL3.style.position = 'absolute';
+		this._barL3.style.top = '0px';
+		this._barL3.style.left = '0px';
 		this._barL3.style.backgroundColor = '#ff0000';
 		this._bar.appendChild(this._barL3);
 		
 		this._barL4 = new Element('img',{src:this.settings.clientFilesPath + 'bar-brightness.png', width:20, height:256} );
-		this._barL4.style.margin = '-256px 0px 0px 0px';
+		//this._barL4.style.margin = '-256px 0px 0px 0px';
+		this._barL4.style.position = 'absolute';
+		this._barL4.style.top = '0px';
+    this._barL4.style.left = '0px';
 		this._bar.appendChild(this._barL4);				
 		
 		// attach map slider
