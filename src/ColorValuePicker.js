@@ -3,11 +3,10 @@ Copyright (c) 2007 John Dyer (http://johndyer.name)
 MIT style license
 */
 
-if (!window.Refresh) Refresh = {};
-if (!Refresh.Web) Refresh.Web = {};
+if (!window.Refresh) window.Refresh = {};
+if (!window.Refresh.Web) window.Refresh.Web = {};
 
-Refresh.Web.ColorValuePicker = Class.create();
-Refresh.Web.ColorValuePicker.prototype = {
+Refresh.Web.ColorValuePicker = Class.create({
 	initialize: function(id) {
 
 		this.id = id;
@@ -27,11 +26,11 @@ Refresh.Web.ColorValuePicker.prototype = {
 		// assign events
 
 		// events
-		this._event_onHsvKeyUp = this._onHsvKeyUp.bindAsEventListener(this);
-		this._event_onHsvBlur = this._onHsvBlur.bindAsEventListener(this);
-		this._event_onRgbKeyUp = this._onRgbKeyUp.bindAsEventListener(this);
-		this._event_onRgbBlur = this._onRgbBlur.bindAsEventListener(this);
-		this._event_onHexKeyUp = this._onHexKeyUp.bindAsEventListener(this);
+		this._event_onHsvKeyUp = this._onHsvKeyUp.bind(this);
+		this._event_onHsvBlur = this._onHsvBlur.bind(this);
+		this._event_onRgbKeyUp = this._onRgbKeyUp.bind(this);
+		this._event_onRgbBlur = this._onRgbBlur.bind(this);
+		this._event_onHexKeyUp = this._onHexKeyUp.bind(this);
 		
 		// HSB
 		Event.observe( this._hueInput,'keyup', this._event_onHsvKeyUp);
@@ -172,4 +171,4 @@ Refresh.Web.ColorValuePicker.prototype = {
 		this._saturationInput.value = this.color.s;
 		this._valueInput.value = this.color.v;
 	}
-};
+});

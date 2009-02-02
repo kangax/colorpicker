@@ -228,7 +228,6 @@ Refresh.Web.Slider.prototype = {
 	setValuesFromMousePosition: function(e) {
 		//this.setPositioningVariables();
 		
-	
 		var mouse = Event.pointer(e);
 		
 		var relativeX = 0;
@@ -265,10 +264,7 @@ Refresh.Web.Slider.prototype = {
 		this._setArrowPosition(relativeX, relativeY);
 
 		// fire events
-		if(this.onValuesChanged)
+		if (this.onValuesChanged)
 			this.onValuesChanged(this);
 	}	
-
 }
-
-
