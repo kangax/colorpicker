@@ -9,7 +9,8 @@ if (!Refresh.Web) Refresh.Web = {};
 Refresh.Web.DefaultColorPickerSettings = {
 	startMode:'h',
 	startHex:'ff0000',
-	clientFilesPath: '../lib/images/'
+	clientFilesPath: '../lib/images/',
+	sliderWidth: 20
 };
 
 Refresh.Web.ColorPicker = Class.create();
@@ -39,7 +40,7 @@ Refresh.Web.ColorPicker.prototype = {
 
 		// attach events to radio & checks
 
-		this._event_onRadioClicked = this._onRadioClicked.bindAsEventListener(this);
+		this._event_onRadioClicked = this._onRadioClicked.bind(this);
 
 		Event.observe( this._hueRadio,'click', this._event_onRadioClicked);
 		Event.observe( this._saturationRadio,'click', this._event_onRadioClicked);
@@ -66,64 +67,93 @@ Refresh.Web.ColorPicker.prototype = {
 		this._mapBase.style.border = 'solid 1px #000';
 		this._mapBase.style.position = 'relative';
 		
-		this._mapL1 = new Element('img',{src:this.settings.clientFilesPath + 'blank.gif', width:256, height:256} ); //'blank.gif'});
+		this._mapL1 = new Element('img', {
+		  src: this.settings.clientFilesPath + 'blank.gif', 
+		  width: 256, 
+		  height: 256 
+		});
 		this._mapL1.style.margin = '0px';
-		this._mapBase.appendChild(this._mapL1);				
+		this._mapBase.appendChild(this._mapL1);
 	
-		this._mapL2 = new Element('img',{src:this.settings.clientFilesPath + 'blank.gif', width:256, height:256} ); //'blank.gif'});
+		this._mapL2 = new Element('img', { 
+		  src: this.settings.clientFilesPath + 'blank.gif', 
+		  width: 256, 
+		  height: 256
+		});
 		this._mapBase.appendChild(this._mapL2);
 		this._mapL2.style.clear = 'both';
-		//this._mapL2.style.margin = '-256px 0px 0px 0px';
 		this._mapL2.style.position = 'absolute';
 		this._mapL2.style.top = '0';
 		this._mapL2.style.left = '0';
-		this._mapL2.setOpacity(.5);
+		this._mapL2.setOpacity(0.5);
 		
 		
 		// BAR
 		this._bar = $(this.id + '_ColorBar');
-		this._bar.style.width = '20px';
+		this._bar.style.width = this.sliderWidth + 'px';
 		this._bar.style.height = '256px';
 		this._bar.style.position = 'relative';
 		this._bar.style.padding = 0;
 		this._bar.style.margin = '0px 10px';
-		this._bar.style.border = 'solid 1px #000';		
+		this._bar.style.border = 'solid 1px #000';
 		
-		this._barL1 = new Element('img',{src:this.settings.clientFilesPath + 'blank.gif', width:20, height:256});
-		this._barL1.style.margin = '0px';
+		this._barL1 = new Element('img', {
+		  src: this.settings.clientFilesPath + 'blank.gif', 
+		  width: 20, 
+		  height: 256
+		});
+		this._barL1.style.margin = '0';
 		this._barL1.style.position = 'absolute';
-		this._barL1.style.top = '0px';
-		this._barL1.style.left = '0px';
+		this._barL1.style.top = '0';
+		this._barL1.style.left = '0';
 		
 		this._bar.appendChild(this._barL1);			
 
-		this._barL2 = new Element('img',{src:this.settings.clientFilesPath + 'blank.gif', width:20, height:256} );
-		//this._barL2.style.margin = '-256px 0px 0px 0px';
+		this._barL2 = new Element('img', {
+		  src: this.settings.clientFilesPath + 'blank.gif', 
+		  width: 20, 
+		  height: 256
+		});
 		this._barL2.style.position = 'absolute';
-		this._barL2.style.top = '0px';
-		this._barL2.style.left = '0px';
+		this._barL2.style.top = '0';
+		this._barL2.style.left = '0';
 		this._bar.appendChild(this._barL2);
 		
-		this._barL3 = new Element('img',{src:this.settings.clientFilesPath + 'blank.gif', width:20, height:256} );
-		//this._barL3.style.margin = '-256px 0px 0px 0px';
+		this._barL3 = new Element('img', {
+		  src: this.settings.clientFilesPath + 'blank.gif', 
+		  width: 20, 
+		  height: 256 
+		});
 		this._barL3.style.position = 'absolute';
-		this._barL3.style.top = '0px';
-		this._barL3.style.left = '0px';
+		this._barL3.style.top = '0';
+		this._barL3.style.left = '0';
 		this._barL3.style.backgroundColor = '#ff0000';
 		this._bar.appendChild(this._barL3);
 		
-		this._barL4 = new Element('img',{src:this.settings.clientFilesPath + 'bar-brightness.png', width:20, height:256} );
-		//this._barL4.style.margin = '-256px 0px 0px 0px';
+		this._barL4 = new Element('img', {
+		  src: this.settings.clientFilesPath + 'bar-brightness.png', 
+		  width: 20, 
+		  height: 256
+		});
 		this._barL4.style.position = 'absolute';
-		this._barL4.style.top = '0px';
-    this._barL4.style.left = '0px';
-		this._bar.appendChild(this._barL4);				
+		this._barL4.style.top = '0';
+    this._barL4.style.left = '0';
+		this._bar.appendChild(this._barL4);
 		
 		// attach map slider
-		this._map = new Refresh.Web.Slider(this._mapL2, {xMaxValue: 255, yMinValue: 255, arrowImage: this.settings.clientFilesPath + 'mappoint.gif'});
+		this._map = new Refresh.Web.Slider(this._mapL2, { 
+		  xMaxValue: 255, 
+		  yMinValue: 255, 
+		  arrowImage: this.settings.clientFilesPath + 'mappoint.gif'
+		});
 
 		// attach color slider
-		this._slider = new Refresh.Web.Slider(this._barL4, {xMinValue: 1,xMaxValue: 1, yMinValue: 255, arrowImage: this.settings.clientFilesPath + 'rangearrows.gif'});;
+		this._slider = new Refresh.Web.Slider(this._barL4, { 
+		  xMinValue: 1, 
+		  xMaxValue: 1, 
+		  yMinValue: 255, 
+		  arrowImage: this.settings.clientFilesPath + 'rangearrows.gif'
+		});
 
 		// attach color values
 		this._cvp = new Refresh.Web.ColorValuePicker(this.id);
