@@ -6,19 +6,21 @@ MIT style license
 if (!window.Refresh) Refresh = {};
 if (!Refresh.Web) Refresh.Web = {};
 
-Refresh.Web.DefaultColorPickerSettings = {
-	startMode:'h',
-	startHex:'ff0000',
-	clientFilesPath: '../lib/images/',
-	sliderWidth: 20
-};
-
 Refresh.Web.ColorPicker = Class.create();
 Refresh.Web.ColorPicker.prototype = {
+  
+  defaultOptions: {
+    startMode:'h',
+  	startHex:'ff0000',
+  	clientFilesPath: '../lib/images/',
+  	sliderWidth: 20,
+  	canvasWidth: 256,
+  	canvasHeight: 256
+  },
 
 	initialize: function(id, settings) {
 		this.id = id;
-		this.settings = Object.extend(Object.extend({},Refresh.Web.DefaultColorPickerSettings), settings || {});
+		this.settings = Object.extend(Object.clone(this.defaultOptions), settings || { });
 
 		// attach radio & check boxes
 		this._hueRadio = $(this.id + '_HueRadio');
@@ -90,7 +92,7 @@ Refresh.Web.ColorPicker.prototype = {
 		
 		// BAR
 		this._bar = $(this.id + '_ColorBar');
-		this._bar.style.width = this.sliderWidth + 'px';
+		this._bar.style.width = this.defaultOptions.sliderWidth + 'px';
 		this._bar.style.height = '256px';
 		this._bar.style.position = 'relative';
 		this._bar.style.padding = 0;
