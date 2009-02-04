@@ -3,11 +3,10 @@ Copyright (c) 2007 John Dyer (http://johndyer.name)
 MIT style license
 */
 
-if (!window.Refresh) Refresh = {};
-if (!Refresh.Web) Refresh.Web = {};
+if (!window.Refresh) window.Refresh = { };
+if (!window.Refresh.Web) window.Refresh.Web = { };
 
-Refresh.Web.ColorPicker = Class.create();
-Refresh.Web.ColorPicker.prototype = {
+Refresh.Web.ColorPicker = Class.create({
   
   defaultOptions: {
     startMode:'h',
@@ -62,8 +61,8 @@ Refresh.Web.ColorPicker.prototype = {
 		
 		// MAP
 		this._mapBase = $(this.id + '_ColorMap');
-		this._mapBase.style.width = '256px';
-		this._mapBase.style.height = '256px';
+		this._mapBase.style.width = 'px';
+		this._mapBase.style.height = this.settings.canvasHeight + 'px';
 		this._mapBase.style.padding = 0;
 		this._mapBase.style.margin = 0;
 		this._mapBase.style.border = 'solid 1px #000';
@@ -71,16 +70,16 @@ Refresh.Web.ColorPicker.prototype = {
 		
 		this._mapL1 = new Element('img', {
 		  src: this.settings.clientFilesPath + 'blank.gif', 
-		  width: 256, 
-		  height: 256 
+		  width: this.settings.canvasWidth, 
+		  height: this.settings.canvasHeight 
 		});
-		this._mapL1.style.margin = '0px';
+		this._mapL1.style.margin = '0';
 		this._mapBase.appendChild(this._mapL1);
 	
 		this._mapL2 = new Element('img', { 
 		  src: this.settings.clientFilesPath + 'blank.gif', 
-		  width: 256, 
-		  height: 256
+		  width: this.settings.canvasWidth, 
+		  height: this.settings.canvasHeight
 		});
 		this._mapBase.appendChild(this._mapL2);
 		this._mapL2.style.clear = 'both';
@@ -93,7 +92,7 @@ Refresh.Web.ColorPicker.prototype = {
 		// BAR
 		this._bar = $(this.id + '_ColorBar');
 		this._bar.style.width = this.defaultOptions.sliderWidth + 'px';
-		this._bar.style.height = '256px';
+		this._bar.style.height = this.settings.canvasHeight + 'px';
 		this._bar.style.position = 'relative';
 		this._bar.style.padding = 0;
 		this._bar.style.margin = '0px 10px';
@@ -102,7 +101,7 @@ Refresh.Web.ColorPicker.prototype = {
 		this._barL1 = new Element('img', {
 		  src: this.settings.clientFilesPath + 'blank.gif', 
 		  width: 20, 
-		  height: 256
+		  height: this.settings.canvasHeight
 		});
 		this._barL1.style.margin = '0';
 		this._barL1.style.position = 'absolute';
@@ -114,7 +113,7 @@ Refresh.Web.ColorPicker.prototype = {
 		this._barL2 = new Element('img', {
 		  src: this.settings.clientFilesPath + 'blank.gif', 
 		  width: 20, 
-		  height: 256
+		  height: this.settings.canvasHeight
 		});
 		this._barL2.style.position = 'absolute';
 		this._barL2.style.top = '0';
@@ -124,7 +123,7 @@ Refresh.Web.ColorPicker.prototype = {
 		this._barL3 = new Element('img', {
 		  src: this.settings.clientFilesPath + 'blank.gif', 
 		  width: 20, 
-		  height: 256 
+		  height: this.settings.canvasHeight 
 		});
 		this._barL3.style.position = 'absolute';
 		this._barL3.style.top = '0';
@@ -135,7 +134,7 @@ Refresh.Web.ColorPicker.prototype = {
 		this._barL4 = new Element('img', {
 		  src: this.settings.clientFilesPath + 'bar-brightness.png', 
 		  width: 20, 
-		  height: 256
+		  height: this.settings.canvasHeight
 		});
 		this._barL4.style.position = 'absolute';
 		this._barL4.style.top = '0';
@@ -618,11 +617,11 @@ Refresh.Web.ColorPicker.prototype = {
 					vValue = this._cvp._greenInput.value;
 				}
 			
-				var horzPer = (hValue /256)*100;
-				var vertPer = ( vValue/256)*100;
+				var horzPer = ( hValue / 256 ) * 100;
+				var vertPer = ( vValue / 256 ) * 100;
 				
-				var horzPerRev = ( (256-hValue)/256)*100;
-				var vertPerRev = ( (256-vValue)/256)*100;
+				var horzPerRev = ( (256-hValue)/256) * 100;
+				var vertPerRev = ( (256-vValue)/256) * 100;
 										
 				this.setAlpha(this._barL4, (vertPer>horzPerRev) ? horzPerRev : vertPer);
 				this.setAlpha(this._barL3, (vertPer>horzPer) ? horzPer : vertPer); 
@@ -630,14 +629,12 @@ Refresh.Web.ColorPicker.prototype = {
 				this.setAlpha(this._barL1, (vertPerRev>horzPerRev) ? horzPerRev : vertPerRev);
 			
 				break;
-							
-			
 		}
 	},
 	setBG: function(el, c) {
 		try {
 			el.style.backgroundColor = '#' + c;
-		} catch (e) {}
+		} catch (e) { }
 	},
 	setImg: function(img, src) {
 	
@@ -651,13 +648,13 @@ Refresh.Web.ColorPicker.prototype = {
 		}
 	},
 	setAlpha: function(obj, alpha) {
-		if (this.isLessThanIE7) {			
+		if (this.isLessThanIE7) {
 			var src = obj.pngSrc;
 			// exception for the hue map
 			if (src != null && src.indexOf('map-hue') == -1)
-				obj.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\'' + src + '\') progid:DXImageTransform.Microsoft.Alpha(opacity=' + alpha + ')';	
+				obj.style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\'' + src + '\') progid:DXImageTransform.Microsoft.Alpha(opacity=' + alpha + ')';
 		} else {
-			obj.setOpacity(alpha/100);		
+			obj.setOpacity(alpha/100);
 		}
 	}
-};
+});
